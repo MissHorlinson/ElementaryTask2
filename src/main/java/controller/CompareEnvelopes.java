@@ -5,29 +5,28 @@ import service.EnvelopeService;
 import util.*;
 
 public class CompareEnvelopes {
+
     private Input           input = new Input();
     private Output          output = new Output();
     private Validator       validator = new Validator();
     private EnvelopeService service = new EnvelopeService();
 
-    Envelope envelopeOne = new Envelope(envelope("first"), envelope("first"));
-    Envelope envelopeTwo = new Envelope(envelope("second"), envelope("second"));
+    Envelope envelopeOne = new Envelope(envelopeSide("first"), envelopeSide("first"));
+    Envelope envelopeTwo = new Envelope(envelopeSide("second"), envelopeSide("second"));
 
-    public float envelope(String number) {
-        float side = 0;
+    public float envelopeSide(String number) {
         output.envelopeInstruction(number);
-        while (side <= 0) {
-            output.negativeNumber();
-            String value = input.getString();
-            if (validator.isNumber(value)) {
-                side = validator.toFloat(value);
+        String sideValue = input.getString();
+        while (!validator.isValid(sideValue)) {
+            output.wrongData();
+             sideValue = input.getString();
             }
-        }
+        float side = validator.getFloat(sideValue);
         return side;
     }
 
     public void envelopesCompare() {
-        if(service.compare(envelopeOne, envelopeTwo)) {
+        if (service.compare(envelopeOne, envelopeTwo)) {
             output.envelopeInput();
         } else {
             output.envelopeNotInput();
@@ -35,7 +34,7 @@ public class CompareEnvelopes {
     }
 
     public boolean shouldContinue() {
-        output.continueRequest("Task 2");
+        output.continueRequest();
         return validator.continueRequest(input.getString());
     }
 }

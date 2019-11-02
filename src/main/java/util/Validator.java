@@ -1,11 +1,23 @@
 package util;
 
 public class Validator {
-    public boolean isNumber(String str) {
-        return str.matches("\\d+");
+
+    public boolean isValid(String str) {
+        if (isNumber(str)) {
+            if (getFloat(str) <= 0) {
+                return false;
+            } else
+                return true;
+        } else {
+            return false;
+        }
     }
 
-    public float toFloat(String str) {
+    public boolean isNumber(String str) {
+        return noTub(str).matches("\\d+");
+    }
+
+    public float getFloat(String str) {
         return Float.parseFloat(noTub(str));
     }
 
